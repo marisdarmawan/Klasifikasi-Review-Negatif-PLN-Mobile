@@ -60,7 +60,7 @@ def prediksi_cerdas(input_teks):
     best_score = cosine_scores[best_idx].item()
     
     kategori_prediksi = df_db.iloc[best_idx]['Path_Lengkap']
-    sentimen_prediksi = df_db.iloc[best_idx]['sentiment_category']
+    sentimen_prediksi = df_db.iloc[best_idx]['sentimen']
     
     # Konversi skor probabilitas
     confidence = min(99.9, max(40.0, best_score * 100)) 
