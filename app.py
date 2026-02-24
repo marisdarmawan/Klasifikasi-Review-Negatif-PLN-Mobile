@@ -27,7 +27,7 @@ def load_and_embed_data(_model):
         # MENGUBAH TEKS MENJADI VEKTOR MATEMATIKA (EMBEDDINGS)
         database_embeddings = _model.encode(df_db['content'].tolist(), convert_to_tensor=True)
         
-        return df_bersih, database_embeddings
+        return df_db, database_embeddings
     except Exception as e:
         st.error(f"Error loading data: {e}")
         return None, None
