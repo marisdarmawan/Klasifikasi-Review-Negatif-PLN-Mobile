@@ -21,8 +21,8 @@ def load_ai_model():
 @st.cache_data
 def load_and_embed_data(_model):
     try:
-        # Langsung load file matang (Jauh lebih hemat RAM!)
-        df_db = pd.read_csv('Database_Ulasan_Bersih.csv')
+        # BACA FORMAT PARQUET (Sangat Cepat & Anti-Error Koma/Enter)
+        df_db = pd.read_parquet('Database_Ulasan_Sempurna.parquet')
         
         # MENGUBAH TEKS MENJADI VEKTOR MATEMATIKA (EMBEDDINGS)
         database_embeddings = _model.encode(df_db['content'].tolist(), convert_to_tensor=True)
