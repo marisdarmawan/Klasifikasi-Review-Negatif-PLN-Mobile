@@ -21,21 +21,11 @@ def load_ai_model():
 @st.cache_data
 def load_and_embed_data(_model):
     try:
-        # Load data klasifikasi
-        df_klas = pd.read_csv('Hasil_Klasifikasi_Ulasan_PLN.csv')
-        df_klas['Path_Lengkap'] = df_klas['LAYER 1'].astype(str) + ' > ' + df_klas['LAYER 2'].astype(str) + ' > ' + df_klas['LAYER 3'].astype(str) + ' > ' + df_klas['LAYER 4'].astype(str) + ' > ' + df_klas['LAYER 5'].astype(str)
+        # Langsung load file matang (Jauh lebih hemat RAM!)
+        df_db = pd.read_csv('Database_Ulasan_Bersih.csv')
         
-        # Load data sentimen
-        df_sentimen = pd.read_csv('hasil_analisis_sentimen.csv')
-        
-        # Gabungkan
-        df_merge = pd.merge(df_klas[['content', 'Path_Lengkap']], df_sentimen[['review', 'sentimen']], left_on='content', right_on='review', how='inner')
-        
-        # Bersihkan data (Buang "Tidak Deskriptif")
-        df_bersih = df_merge[~df_merge['Path_Lengkap'].str.contains('Tidak Deskriptif', na=False)].dropna(subset=['content']).copy()
-        
-        # MENGUBAH 5.000 TEKS MENJADI VEKTOR MATEMATIKA (EMBEDDINGS)
-        database_embeddings = _model.encode(df_bersih['content'].tolist(), convert_to_tensor=True)
+        # MENGUBAH TEKS MENJADI VEKTOR MATEMATIKA (EMBEDDINGS)
+        database_embeddings = _model.encode(df_db['content'].tolist(), convert_to_tensor=True)
         
         return df_bersih, database_embeddings
     except Exception as e:
